@@ -5,10 +5,6 @@ pipeline {
     stage('Node js app clone') {
       steps {
         git branch: 'main', url: 'https://github.com/ckaruthapandi/NodejsProject.git'
-      }
-    }
-    stage ('commit id') {
-      steps {
         script {
           env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
         }
