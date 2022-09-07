@@ -1,16 +1,16 @@
 pipeline {
   agent any
   stages {
+  
     stage('Node js app clone') {
       steps {
         git branch: 'main', url: 'https://github.com/ckaruthapandi/NodejsProject.git'
       }
     }
-  }  
     stage ('commit id') {
       steps {
         script {
-            env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
+          env.GIT_COMMIT_MSG = sh (script: 'git log -1 --pretty=%B ${GIT_COMMIT}', returnStdout: true).trim()
         }
       }
     } 
@@ -20,20 +20,20 @@ pipeline {
       }
     }
     stage('Pushing to ECR') {
-     steps{  
-         script {
+      steps {  
+        script {
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 581962848636.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker tag aatmaaniproject:latest 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:${GIT_COMMIT}'
                 sh 'docker push 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:${GIT_COMMIT}'
-                }
-           }
+        }
       }
+    }
     stage('helm repo check out ') {
       steps {
         git branch: 'main', url: 'https://github.com/ckaruthapandi/devops.git'
       }
     }
-     stage('deploy to helm ') {
+    stage('deploy to helm ') {
       steps {
             sh 'kubectl apply -f my-namespace.yaml'
             sh 'helm upgrade --install nodejsdev nodejsapp --values nodejsapp/values.yaml -n dev --set image.tag="$BUILD_NUMBER"'
