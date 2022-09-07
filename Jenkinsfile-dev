@@ -4,13 +4,7 @@ pipeline {
   
 stage('helm repo check out ') {
       steps {
-        sh 'ls -l'
-        dir ('devops') {
-          writeFile file:'dummy', text:''
-          }
-        sh 'cd devops'
-        git branch: 'main', credentialsId: '9f3b5fc3-a908-4819-b3e6-0ba71e7c6bcf', url: 'https://github.com/ckaruthapandi/Devops.git'
-        sh 'ls -l'
+      
       }
     }
      stage('deploy to helm ') {
