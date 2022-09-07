@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  environment{
+    GIT_COMMIT = getcommitid()
+  }
+ 
   stages {
   
     stage('Node js app clone') {
@@ -24,20 +28,10 @@ pipeline {
         }
       }
     }
-    stage('helm repo check out ') {
-      steps {
-        git branch: 'main', url: 'https://github.com/ckaruthapandi/devops.git'
-      }
-    }
-    stage('deploy to helm ') {
-      steps {
-            sh 'kubectl apply -f my-namespace.yaml'
-            sh 'helm upgrade --install nodejsdev nodejsapp --values nodejsapp/values.yaml -n dev --set image.tag="$BUILD_NUMBER"'
-            sh 'cat nodejsapp/values.yaml'
-      }
-    }
   }
-  post 
+}
+
+post 
   {
       always
       {
@@ -45,3 +39,7 @@ pipeline {
         }
    }
 }
+ def getcommitid(){
+    def tag = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
+ 
