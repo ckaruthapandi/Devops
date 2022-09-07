@@ -13,7 +13,7 @@ stage('helm repo check out ') {
             sh 'helm upgrade --install nodejsdev  nodejs --values nodejsapp/values.yaml -n dev'
             }
     }
-
+}
   post 
   {
       always
@@ -22,5 +22,4 @@ stage('helm repo check out ') {
           slackSend channel: 'kp-devops', message: "pipeline status -${currentBuild.currentResult}"
         }
    }
-}
 }
