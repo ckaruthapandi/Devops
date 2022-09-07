@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('node js check out ') {
+    stage('Node js app clone') {
       steps {
         git branch: 'main', url: 'https://github.com/ckaruthapandi/NodejsProject.git'
       }
@@ -35,7 +35,7 @@ pipeline {
             sh 'kubectl apply -f my-namespace.yaml'
             sh 'helm upgrade --install nodejsdev nodejsapp --values nodejsapp/values.yaml -n dev --set image.tag="$BUILD_NUMBER"'
             sh 'cat nodejsapp/values.yaml'
-           }
+      }
     }
   }
   post 
