@@ -2,9 +2,16 @@ pipeline {
   agent any
   stages {
   
-stage('helm repo check out ') {
+    stage('helm repo check out ') {
       steps {
       git branch: 'main', url: 'https://github.com/ckaruthapandi/devops.git'
+      }
+    }
+    stage('Ecr update ') {
+      steps {
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 581962848636.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'docker tag 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:devlatest 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:qalatest'
+                sh 'docker push 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:qalatest'  
       }
     }
      stage('deploy to helm ') {
