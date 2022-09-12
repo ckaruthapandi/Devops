@@ -7,6 +7,13 @@ stage('helm repo check out ') {
       git branch: 'main', url: 'https://github.com/ckaruthapandi/devops.git'
       }
     }
+    stage('Ecr update ') {
+      steps {
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 581962848636.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'docker tag 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:qalatest 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:prodlatest'
+                sh 'docker push 581962848636.dkr.ecr.us-east-1.amazonaws.com/aatmaaniproject:prodlatest'  
+      }
+    }
      stage('deploy to helm ') {
       steps {
             sh 'kubectl apply -f my-namespace.yaml'
