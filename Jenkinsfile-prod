@@ -17,7 +17,7 @@ stage('helm repo check out ') {
      stage('deploy to helm ') {
       steps {
             sh 'kubectl apply -f my-namespace.yaml'
-            sh 'helm upgrade --install nodejsdev  nodejs --values nodejs/values.yaml --set image.tag=qalatest -n prod'
+            sh 'helm upgrade --install nodejsdev  nodejs --values nodejs/values.yaml --set image.tag=prodlatest -n prod'
             sh 'cat nodejs/values.yaml'
             }
     }
