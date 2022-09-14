@@ -17,7 +17,7 @@ pipeline {
      stage('deploy to helm ') {
       steps {
             sh 'kubectl apply -f my-namespace.yaml'
-            sh 'helm upgrade --install nodejsdev  nodejs --values nodejs/values.yaml --set image.tag=qalatest -n qa'
+            sh 'helm upgrade --install nodejsdev  nodejs --values nodejs/values-qa.yaml --set image.tag=qalatest -n qa'
             sh 'cat nodejs/values.yaml'
             }
     }
