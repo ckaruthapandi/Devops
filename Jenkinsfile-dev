@@ -18,7 +18,6 @@ stage('helm repo check out ') {
       steps {
             sh 'kubectl apply -f my-namespace.yaml'
             sh 'helm upgrade --install nodejsdev  nodejs --values nodejs/values-dev.yaml --set image.tag=devlatest -n dev'
-            sh 'cat nodejs/values.yaml'
             }
     }
 }
